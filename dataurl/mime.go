@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io"
 	"mime"
+	"path/filepath"
 
 	"github.com/gabriel-vasile/mimetype"
 )
@@ -42,4 +43,21 @@ func NewMediaStream(in io.Reader, path string) MediaStream {
 		In:   bufio.NewReader(in),
 		Path: path,
 	}
+}
+
+func (ms *MediaStream) Mime() (Mime, error) {
+	if ms.Path != "" {
+		mime, err := MimeFromExt(filepath.Ext(ms.Path))
+		if err == nil {
+			return mime, nil
+		}
+	}
+
+	buf, err := ms.In.Peek(256)
+	if err != nil {
+		return Mime(""), err
+	}
+
+	mime := MimeFromBuf(buf)
+	return Mime(mime), nil
 }
