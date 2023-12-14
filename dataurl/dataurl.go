@@ -19,14 +19,14 @@ func MimeFromBuf(buf []byte) Mime {
 	return Mime(mimetype.Detect(buf).String())
 }
 
-func ToDataUrl(mime string, data io.Reader, out io.Writer) error {
+func ToDataUrl(mime Mime, data io.Reader, out io.Writer) error {
 	bout := bufio.NewWriter(out)
 	_, err := bout.WriteString("data:")
 	if err != nil {
 		return err
 	}
 
-	_, err = bout.WriteString(mime)
+	_, err = bout.WriteString(string(mime))
 	if err != nil {
 		return err
 	}
