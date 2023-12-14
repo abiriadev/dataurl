@@ -1,29 +1,28 @@
 package dataurl
 
 import (
-	"bufio"
 	"encoding/base64"
 	"io"
 )
 
-func ToDataUrl(mime Mime, data io.Reader, out *bufio.Writer) error {
-	_, err := out.WriteString("data:")
+func ToDataUrl(mime Mime, data io.Reader, out io.Writer) error {
+	_, err := out.Write([]byte("data:"))
 	if err != nil {
 		return err
 	}
 
-	_, err = out.WriteString(string(mime))
+	_, err = out.Write([]byte(mime))
 	if err != nil {
 		return err
 	}
 
-	_, err = out.WriteString(";base64,")
+	_, err = out.Write([]byte(";base64,"))
 	if err != nil {
 		return err
 	}
 
-	w := base64.NewEncoder(base64.StdEncoding, out)
-	_, err = io.Copy(w, data)
+	enc := base64.NewEncoder(base64.StdEncoding, out)
+	_, err = io.Copy(enc, data)
 	if err != nil {
 		return err
 	}
