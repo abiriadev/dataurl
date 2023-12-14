@@ -1,7 +1,9 @@
 package dataurl
 
 import (
+	"bufio"
 	"errors"
+	"io"
 	"mime"
 
 	"github.com/gabriel-vasile/mimetype"
@@ -25,4 +27,19 @@ func MimeFromExt(ext string) (Mime, error) {
 	}
 
 	return Mime(mime), nil
+}
+
+type MediaStream struct {
+	// stdin or `os.File` reader
+	In *bufio.Reader
+
+	// `In` will be pointing to stdin if `Path` is empty
+	Path string
+}
+
+func NewMediaStream(in io.Reader, path string) MediaStream {
+	return MediaStream{
+		In:   bufio.NewReader(in),
+		Path: path,
+	}
 }
