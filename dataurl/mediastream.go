@@ -39,3 +39,12 @@ func (ms *MediaStream) Mime() (Mime, error) {
 	mime := MimeFromBuf(buf)
 	return Mime(mime), nil
 }
+
+func (ms *MediaStream) DataUrl(out io.Writer) error {
+	mime, err := ms.Mime()
+	if err != nil {
+		return err
+	}
+
+	return ToDataUrl(mime, ms.In, out)
+}
