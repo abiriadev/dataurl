@@ -6,30 +6,24 @@ import (
 	"io"
 )
 
-func ToDataUrl(mime Mime, data io.Reader, out io.Writer) error {
-	bout := bufio.NewWriter(out)
-	_, err := bout.WriteString("data:")
+func ToDataUrl(mime Mime, data io.Reader, out *bufio.Writer) error {
+	_, err := out.WriteString("data:")
 	if err != nil {
 		return err
 	}
 
-	_, err = bout.WriteString(string(mime))
+	_, err = out.WriteString(string(mime))
 	if err != nil {
 		return err
 	}
 
-	_, err = bout.WriteString(";base64,")
+	_, err = out.WriteString(";base64,")
 	if err != nil {
 		return err
 	}
 
-	w := base64.NewEncoder(base64.StdEncoding, bout)
+	w := base64.NewEncoder(base64.StdEncoding, out)
 	_, err = io.Copy(w, data)
-	if err != nil {
-		return err
-	}
-
-	err = bout.Flush()
 	if err != nil {
 		return err
 	}
