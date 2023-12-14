@@ -30,6 +30,8 @@ func MimeFromExt(ext string) (Mime, error) {
 	return Mime(mime), nil
 }
 
+const HEADER_LIM = 256
+
 type MediaStream struct {
 	// stdin or `os.File` reader
 	In *bufio.Reader
@@ -53,7 +55,7 @@ func (ms *MediaStream) Mime() (Mime, error) {
 		}
 	}
 
-	buf, err := ms.In.Peek(256)
+	buf, err := ms.In.Peek(HEADER_LIM)
 	if err != nil && err != io.EOF {
 		return Mime(""), err
 	}
