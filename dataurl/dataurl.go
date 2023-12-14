@@ -29,5 +29,10 @@ func ToDataUrl(mime Mime, data io.Reader, out io.Writer) error {
 		return err
 	}
 
+	err = bout.Flush()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
