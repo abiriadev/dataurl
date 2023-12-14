@@ -54,7 +54,7 @@ func (ms *MediaStream) Mime() (Mime, error) {
 	}
 
 	buf, err := ms.In.Peek(256)
-	if err != nil {
+	if err != nil && err != io.EOF {
 		return Mime(""), err
 	}
 
