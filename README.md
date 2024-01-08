@@ -35,3 +35,7 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAA
 $ dataurl --mime 'text/plain; charset=UTF-8' ./post.md
 data:text/plain; charset=UTF-8;base64,IyBIZWxsbywgd29ybGQh
 ```
+
+# License
+
+[![Licence](https://img.shields.io/github/license/abiriadev/dataurl?style=for-the-badge)](./LICENSE)
