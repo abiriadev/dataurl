@@ -50,9 +50,10 @@ func main() {
 						panic(err)
 					}
 				}
-				if m == "" {
-					panic("unknown file type")
-				}
+			}
+
+			if m == "" {
+				panic("unknown file type")
 			}
 
 			err := dataurl.ToDataUrl(dataurl.Mime(m), data, os.Stdout)
