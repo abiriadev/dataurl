@@ -44,7 +44,6 @@ func main() {
 				data = d
 
 				if m == "" {
-					// m = mime.TypeByExtension(filepath.Ext(file))
 					m, err = dataurl.MimeFromExt(filepath.Ext(file))
 					if err != nil {
 						panic(err)
