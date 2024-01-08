@@ -20,7 +20,7 @@ func main() {
 			},
 		},
 		Action: func(ctx *cli.Context) error {
-			// mime := ctx.String("mime")
+			m := ctx.String("mime")
 
 			file := ctx.Args().Get(0)
 
@@ -34,13 +34,15 @@ func main() {
 				panic(err)
 			}
 
-			mime := mime.TypeByExtension(filepath.Ext(file))
+			if m == "" {
+				m = mime.TypeByExtension(filepath.Ext(file))
+			}
 
-			if mime == "" {
+			if m == "" {
 				panic("unknown file type")
 			}
 
-			err = dataurl.ToDataUrl(dataurl.Mime(mime), h, os.Stdout)
+			err = dataurl.ToDataUrl(dataurl.Mime(m), h, os.Stdout)
 
 			if err != nil {
 				panic(err)
@@ -51,5 +53,4 @@ func main() {
 	}).Run(os.Args); err != nil {
 		panic(err)
 	}
-
 }
